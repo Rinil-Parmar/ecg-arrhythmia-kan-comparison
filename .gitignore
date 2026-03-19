@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data artifacts
+data/raw/
+data/processed/
+checkpoints/
+*.pth
+*.pt
+
+# Experiment outputs
+experiments/*/logs/
+experiments/*/plots/
+experiments/*/predictions/
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
