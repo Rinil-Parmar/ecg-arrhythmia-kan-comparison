@@ -1,0 +1,50 @@
+=================================================================
+  FINAL COMPARISON REPORT
+  KAN vs MLP for ECG Arrhythmia Classification
+  Dataset: MIT-BIH Arrhythmia Database (PhysioNet)
+=================================================================
+
+  1. OVERALL METRICS
+  Metric                         CNN+MLP      CNN+KAN     Winner
+  -----------------------------------------------------------
+  Accuracy                        0.9800       0.9476    CNN+MLP
+  Macro F1                        0.9019       0.8167    CNN+MLP
+  Weighted F1                     0.9809       0.9540    CNN+MLP
+  Macro AUC                       0.9965       0.9924    CNN+MLP
+
+  2. EFFICIENCY
+  Metric                         CNN+MLP      CNN+KAN     Winner
+  -----------------------------------------------------------
+  Parameters                     175,973      285,280    CNN+MLP
+  Inference (ms/sample)           0.3664       0.6308    CNN+MLP
+  Training Epochs                     38           47          —
+
+  3. PER-CLASS F1
+  Class           CNN+MLP      CNN+KAN     Winner
+  --------------------------------------------
+  N                0.9889       0.9690    CNN+MLP
+  S                0.8111       0.5968    CNN+MLP
+  V                0.9577       0.9070    CNN+MLP
+  F                0.7589       0.6270    CNN+MLP
+  Q                0.9930       0.9836    CNN+MLP
+
+  4. PER-CLASS AUC
+  Class           CNN+MLP      CNN+KAN     Winner
+  --------------------------------------------
+  N                0.9976       0.9959    CNN+MLP
+  S                0.9928       0.9829    CNN+MLP
+  V                0.9992       0.9979    CNN+MLP
+  F                0.9930       0.9858    CNN+MLP
+  Q                0.9998       0.9996    CNN+MLP
+
+  5. CONCLUSION
+  ------------------------------------------------------------
+  CNN+MLP outperforms CNN+KAN across 4/4 metrics.
+  KAN achieves competitive Macro AUC (0.992) but lower
+  Macro F1 (0.817 vs 0.902), suggesting
+  KAN requires more data or tuning to match MLP on this task.
+  KAN's parameter count (285,280) vs MLP (175,973) shows its
+  efficiency trade-off potential with further optimization.
+
+  [!] All results on held-out test set (never seen during training).
+=================================================================
