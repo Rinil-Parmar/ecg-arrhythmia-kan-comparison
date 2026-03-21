@@ -1,0 +1,65 @@
+{
+  "report_timestamp": "2026-03-20 23:28:05",
+  "model_name": "CNN_MLP",
+  "patient_id": "P_00000",
+  "recording_id": "ECG_00000",
+  "prediction": {
+    "predicted_class": "N",
+    "class_description": "Normal / Non-ectopic beat",
+    "confidence": 0.9935,
+    "confidence_pct": "99.4%",
+    "all_probabilities": {
+      "N": 0.9935,
+      "S": 0.0063,
+      "V": 0.0001,
+      "F": 0.0001,
+      "Q": 0.0
+    },
+    "top_3_predictions": [
+      {
+        "class": "N",
+        "probability": 0.9935
+      },
+      {
+        "class": "S",
+        "probability": 0.0063
+      },
+      {
+        "class": "F",
+        "probability": 0.0001
+      }
+    ]
+  },
+  "triage": {
+    "level": "Priority Review",
+    "uncertainty_flag": "Confident",
+    "entropy": 0.04
+  },
+  "signal_quality": {
+    "sqi": "Poor",
+    "artifact_flags": [
+      "High amplitude artifact"
+    ],
+    "action": "Repeat ECG acquisition before interpretation."
+  },
+  "evidence": {
+    "windows": [
+      {
+        "start_s": 0.18,
+        "end_s": 0.27,
+        "importance_score": 0.3812
+      },
+      {
+        "start_s": 0.36,
+        "end_s": 0.44,
+        "importance_score": 0.3025
+      }
+    ],
+    "explanation": "Regular beat morphology detected. No significant ectopic activity observed. Model confidence: 99.4%. Signal quality: Poor. Artifacts: High amplitude artifact."
+  },
+  "arrhythmia_burden_pct": 0.0,
+  "performance": {
+    "inference_ms": 109.292
+  },
+  "disclaimer": "This tool is decision-support only and not a standalone diagnostic system. Final interpretation must be made by a licensed clinician."
+}
