@@ -7,3 +7,4 @@ wfdb
 pandas
 matplotlib
 jupyter
+huggingface_hub
