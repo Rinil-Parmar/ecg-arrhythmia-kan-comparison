@@ -343,7 +343,7 @@ def load_model(model_type: str):
         model.load_state_dict(ckpt["model_state"])
         model.eval()
         return model
-    except Exception as e:
+    except Exception:
         return None
 
 
@@ -754,7 +754,13 @@ elif "Prediction" in page:
     with tab1:
         X, y = load_ecg_data()
         if X is None:
-            st.error("data/processed/X.npy not found.")
+            st.info(
+                "Dataset files are not available in this deployment "
+                "(data files excluded to keep the repository lightweight). "
+                "Use **Tab 2** to upload a .npy or .csv ECG signal file, "
+                "or **Tab 3** to upload an ECG image. "
+                "Sample files for each arrhythmia class are in `test_samples/` in the repository."
+            )
         else:
             col_ctrl, col_info = st.columns([2, 1])
             with col_ctrl:
