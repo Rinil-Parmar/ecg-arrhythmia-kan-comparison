@@ -1,10 +1,24 @@
-torch
-torchvision
-torchaudio
-numpy
-scikit-learn
-wfdb
-pandas
-matplotlib
-jupyter
-huggingface_hub
+--extra-index-url https://download.pytorch.org/whl/cpu
+
+# Deep learning (CPU-only — Streamlit Cloud has no GPU)
+torch==2.2.2+cpu
+torchvision==0.17.2+cpu
+
+# Scientific computing
+numpy==1.26.4
+scipy==1.13.0
+scikit-learn==1.4.2
+
+# Data I/O
+pandas==2.2.1
+wfdb==4.1.2
+
+# Visualization
+matplotlib==3.8.4
+
+# App framework
+streamlit==1.33.0
+
+# Image processing (headless = no display server required on cloud)
+opencv-python-headless==4.9.0.80
+pillow==10.3.0

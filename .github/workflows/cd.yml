@@ -1,0 +1,84 @@
+name: CD — Deploy Readiness Check
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-check:
+    name: Deployment readiness check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-cd-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install ruff==0.4.4 pytest==8.2.0
+
+      - name: Lint check
+        run: |
+          ruff check app.py src/ tests/ \
+            --select E,F,W \
+            --ignore E501,W503 \
+            --output-format github
+
+      - name: Run tests
+        run: pytest tests/ -v --tb=short
+
+      - name: Validate Streamlit config exists
+        run: |
+          test -f .streamlit/config.toml && \
+            echo ".streamlit/config.toml present" || \
+            (echo "MISSING .streamlit/config.toml" && exit 1)
+
+      - name: Validate checkpoint files present
+        run: |
+          test -f checkpoints/cnn_mlp.pth && \
+          test -f checkpoints/cnn_kan.pth && \
+          echo "Both checkpoints present" || \
+          (echo "MISSING checkpoint files — add to git after removing from .gitignore" && exit 1)
+
+      - name: Validate all required packages importable
+        run: |
+          python -c "
+          import sys; sys.path.insert(0, '.')
+          pkgs = ['streamlit', 'torch', 'numpy', 'scipy', 'PIL', 'cv2', 'sklearn', 'pandas', 'matplotlib', 'wfdb']
+          missing = []
+          for pkg in pkgs:
+              try:
+                  __import__(pkg)
+              except ImportError:
+                  missing.append(pkg)
+          if missing:
+              raise SystemExit(f'Missing packages: {missing}')
+          print('All required packages importable — deployment ready')
+          "
+
+      - name: Write deployment summary
+        run: |
+          echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- Branch: \`main\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Python: 3.10" >> $GITHUB_STEP_SUMMARY
+          echo "- Commit: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Lint: passed" >> $GITHUB_STEP_SUMMARY
+          echo "- Tests: passed" >> $GITHUB_STEP_SUMMARY
+          echo "- Streamlit config: present" >> $GITHUB_STEP_SUMMARY
+          echo "- Checkpoints: present" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Streamlit Cloud will auto-deploy from this commit." >> $GITHUB_STEP_SUMMARY

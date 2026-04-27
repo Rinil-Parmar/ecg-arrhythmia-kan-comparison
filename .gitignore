@@ -10,12 +10,9 @@ venv/
 # Jupyter
 .ipynb_checkpoints/
 
-# Data artifacts
+# Data artifacts (large — not tracked)
 data/raw/
 data/processed/
-checkpoints/
-*.pth
-*.pt
 
 # Experiment outputs
 experiments/*/logs/
